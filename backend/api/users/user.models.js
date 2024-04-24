@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
   },
+  role: {
+    type: String,
+    required: true,
+    enum: ["CONDIDAT", "ADMIN"],
+  },
   email: {
     type: String,
     required: [true, "is required"],
@@ -21,9 +26,25 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  image: { 
-  type: String 
-}
+  image: {
+    type: String,
+  },
+  phoneNumber: String,
+  dateOfBirth: Date,
+  socialProfiles: {
+    facebook: String,
+    twitter: String,
+    linkedIn: String,
+    // Ajoutez d'autres réseaux sociaux si nécessaire...
+  },
+  gender: {
+    type: String,
+    enum: ["Male", "Female", "Other"]
+  },
+  
+
+
+
 });
 
 userSchema.method("toJSON", function () {

@@ -5,7 +5,7 @@ require("dotenv").config();
 const { toPlainObjectForJwt } = require("../../utils/FunctionUtils");
 
 exports.register = async (req, res) => {
-  const data = req.body;
+  const data = { ...req.body, role: req.body.role || "CONDIDAT" };
 
   try {
     // Vérification si l'e-mail existe déjà
@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
     token = sign(newUser.toObject(), process.env.JWT_SECRET, {
       expiresIn: "2d",
     });
-    res.status(201).send({ mytoken: token });
+    res.status(201).send({ mytoken: token, role: user.role });
   } catch (error) {
     console.error(error);
     res
@@ -49,7 +49,9 @@ exports.login = async (req, res) => {
       token = sign(payload, process.env.JWT_SECRET, {
         expiresIn: "2d",
       });
-      res.status(200).send({ mytoken: token });
+      res
+        .status(200)
+        .send({ mytoken: token, role: user.role, userID: user._id });
     }
   }
 };
